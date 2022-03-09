@@ -16,6 +16,5 @@
     $sentenciaSQL->bindParam(':urlFeed',$urlFeed);
     $sentenciaSQL->execute();
     $feed = $sentenciaSQL->fetch(PDO::FETCH_LAZY);
-    echo $feed['id'];
     guardarNoticias($feed['id'], generarFeed($urlFeed));
 ?>

@@ -5,9 +5,9 @@
     $contrasenia="";
 
     try{
-        $conexion=new PDO("mysql:host=$host;dbname=$bd, $usuario, $contrasenia");
+        $conexion=new PDO("mysql:host=$host;dbname=$bd", $usuario, $contrasenia);
         if($conexion){
-            echo "Conectando... a sistema";
+            // echo "Conectando... a sistema";
         }
     } catch( Exception $ex){
         echo $ex->getMessage();
