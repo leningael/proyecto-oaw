@@ -1,8 +1,8 @@
 <?php 
     include 'config/bd.php';
-    // $sql = $conexion->prepare("SELECT * FROM feeds");
-    // $sql->execute();
-    // $listaFeeds= $sql->fetchAll(PDO::FETCH_ASSOC);
+    $sql = $conexion->prepare("SELECT * FROM feeds");
+    $sql->execute();
+    $listaFeeds = $sql->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -26,7 +26,7 @@
         <div class="collapse navbar-collapse" id="collapsibleNavId">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Inicio </a>
+                    <a class="nav-link" href="index.php">Inicio </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Ayuda</a>
@@ -51,7 +51,7 @@
             <div class="card">
                 <div class="card-header" role="tab" id="linkFeedHeaderId">
                     <h5 class="mb-0">
-                        <a data-toggle="collapse" data-parent="#accordianId" href="#linkFeed" aria-expanded="true" aria-controls="linkFeed">
+                        <a id="agregarFeed" data-toggle="collapse" data-parent="#accordianId" href="#linkFeed" aria-expanded="true" aria-controls="linkFeed">
                   Añadir Feed
                 </a>
                     </h5>
@@ -79,7 +79,7 @@
             <div class="card">
                 <div class="card-header" role="tab" id="section2HeaderId">
                     <h5 class="mb-0">
-                        <a data-toggle="collapse" data-parent="#accordianId" href="#section2ContentId" aria-expanded="true" aria-controls="section2ContentId">
+                        <a id="#eliminarFeed" data-toggle="collapse" data-parent="#accordianId" href="#section2ContentId" aria-expanded="true" aria-controls="section2ContentId">
                   Eliminar feed(s)
                 </a>
                     </h5>
@@ -95,12 +95,12 @@
                                </tr>
                            </thead>
                            <tbody>
-                            <!-- <?php foreach($listaFeeds as $fuente){?>
+                            <?php foreach($listaFeeds as $fuente){?>
                                 <tr>
-                                    <td scope="row"><?php echo $fuente[nombreFeed] ?></td>
-                                    <td><a name="" id="" class="btn btn-danger" href="#" role="button">Eliminar</a></td>
+                                    <td scope="row" class="col-9"><?php echo $fuente['nombre'];?></td>
+                                    <td class="col-3"><a name="" id="" class="btn btn-danger " href="scripts/eliminarFeed.php?id=<?php echo $fuente['id'];?>" role="button">Eliminar</a></td>
                                 </tr>
-                            <?php } ?> -->
+                            <?php } ?>
                            </tbody>
                        </table>
                     </div>
