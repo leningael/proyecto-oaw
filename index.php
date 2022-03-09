@@ -1,3 +1,9 @@
+<?php
+    include 'config/bd.php';
+    $sql = $conexion->prepare("SELECT * FROM noticias");
+    $sql->execute();
+    $listaNoticias = $sql->fetchAll(PDO::FETCH_ASSOC);
+?>
 <!doctype html>
 <html lang="es">
 <head>
@@ -20,7 +26,7 @@
         <div class="collapse navbar-collapse" id="collapsibleNavId">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Inicio</a>
+                    <a class="nav-link" href="index.php">Inicio</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Ayuda</a>
@@ -28,8 +34,8 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="administrarFeeds.php" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Administrar feeds</a>
                     <div class="dropdown-menu" aria-labelledby="dropdownId">
-                        <a class="dropdown-item" href="#">Agregar feeds</a>
-                        <a class="dropdown-item" href="#">Eliminar feeds</a>
+                        <a class="dropdown-item" href="administrarFeeds.php#linkFeed">Agregar feeds</a>
+                        <a class="dropdown-item" href="administrarFeeds.php#section2ContentId">Eliminar feeds</a>
                     </div>
                 </li>
             </ul>
@@ -50,46 +56,16 @@
                 </ul>
             </div>
             <div class="col-md-10 d-flex flex-wrap">
+                <?php foreach($listaNoticias as $noticia){?>
                 <div class="card m-2" style="width: 300px">
-                    <img class="card-img-top" src="https://scontent.fmid1-4.fna.fbcdn.net/v/t1.6435-9/79811495_2764469866907973_6080206264019714048_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=09cbfe&_nc_eui2=AeF2ZE1Plst2-x6HYgVxJomxFNX5revnKy8U1fmt6-crLzp-9pQt834HYT5AHCpZdsqWiohmAmnOPPeJWS1BMGF-&_nc_ohc=Xl0qJo33McsAX9tJsBK&_nc_ht=scontent.fmid1-4.fna&oh=00_AT8JrGjVWA30Hvf-dZz3PXMYlkbsw_Ktw1o1PvYzjpSE1A&oe=624DC781" alt="">
+                    <img class="card-img-top" src="<?php echo $noticia['imagen'];?>" alt="">
                     <div class="card-body">
-                        <h4 class="card-title">Pablo Andrew G</h4>
-                        <p class="card-text">Descripcion</p>
+                        <h4 class="card-title"><?php echo $noticia['titulo'];?></h4>
+                        <p class="card-text"><?php echo $fuente['descripcion'];?></p>
                         <a name="" id="" class="btn btn-primary" href="#" role="button">Leer articulo</a>
                     </div>
                 </div>
-                <div class="card m-2" style="width: 300px">
-                    <img class="card-img-top" src="https://scontent.fmid1-4.fna.fbcdn.net/v/t1.6435-9/79811495_2764469866907973_6080206264019714048_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=09cbfe&_nc_eui2=AeF2ZE1Plst2-x6HYgVxJomxFNX5revnKy8U1fmt6-crLzp-9pQt834HYT5AHCpZdsqWiohmAmnOPPeJWS1BMGF-&_nc_ohc=Xl0qJo33McsAX9tJsBK&_nc_ht=scontent.fmid1-4.fna&oh=00_AT8JrGjVWA30Hvf-dZz3PXMYlkbsw_Ktw1o1PvYzjpSE1A&oe=624DC781" alt="">
-                    <div class="card-body">
-                        <h4 class="card-title">Titulo</h4>
-                        <p class="card-text">Descripcion</p>
-                        <a name="" id="" class="btn btn-primary" href="#" role="button">Leer articulo</a>
-                    </div>
-                </div>
-                <div class="card m-2" style="width: 300px">
-                    <img class="card-img-top" src="https://scontent.fmid1-4.fna.fbcdn.net/v/t1.6435-9/79811495_2764469866907973_6080206264019714048_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=09cbfe&_nc_eui2=AeF2ZE1Plst2-x6HYgVxJomxFNX5revnKy8U1fmt6-crLzp-9pQt834HYT5AHCpZdsqWiohmAmnOPPeJWS1BMGF-&_nc_ohc=Xl0qJo33McsAX9tJsBK&_nc_ht=scontent.fmid1-4.fna&oh=00_AT8JrGjVWA30Hvf-dZz3PXMYlkbsw_Ktw1o1PvYzjpSE1A&oe=624DC781" alt="">
-                    <div class="card-body">
-                        <h4 class="card-title">Pablo Rosas Marín</h4>
-                        <p class="card-text">Descripcion de Pablo Rosas Marín</p>
-                        <a name="" id="" class="btn btn-primary" href="#" role="button">Leer articulo</a>
-                    </div>
-                </div>
-                <div class="card m-2" style="width: 300px">
-                    <img class="card-img-top" src="https://scontent.fmid1-4.fna.fbcdn.net/v/t1.6435-9/79811495_2764469866907973_6080206264019714048_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=09cbfe&_nc_eui2=AeF2ZE1Plst2-x6HYgVxJomxFNX5revnKy8U1fmt6-crLzp-9pQt834HYT5AHCpZdsqWiohmAmnOPPeJWS1BMGF-&_nc_ohc=Xl0qJo33McsAX9tJsBK&_nc_ht=scontent.fmid1-4.fna&oh=00_AT8JrGjVWA30Hvf-dZz3PXMYlkbsw_Ktw1o1PvYzjpSE1A&oe=624DC781" alt="">
-                    <div class="card-body">
-                        <h4 class="card-title">Titulo</h4>
-                        <p class="card-text">Descripcion</p>
-                        <a name="" id="" class="btn btn-primary" href="#" role="button">Leer articulo</a>
-                    </div>
-                </div>
-                <div class="card m-2" style="width: 300px">
-                    <img class="card-img-top" src="https://scontent.fmid1-4.fna.fbcdn.net/v/t1.6435-9/79811495_2764469866907973_6080206264019714048_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=09cbfe&_nc_eui2=AeF2ZE1Plst2-x6HYgVxJomxFNX5revnKy8U1fmt6-crLzp-9pQt834HYT5AHCpZdsqWiohmAmnOPPeJWS1BMGF-&_nc_ohc=Xl0qJo33McsAX9tJsBK&_nc_ht=scontent.fmid1-4.fna&oh=00_AT8JrGjVWA30Hvf-dZz3PXMYlkbsw_Ktw1o1PvYzjpSE1A&oe=624DC781" alt="">
-                    <div class="card-body">
-                        <h4 class="card-title">Titulo</h4>
-                        <p class="card-text">Descripcion</p>
-                        <a name="" id="" class="btn btn-primary" href="#" role="button">Leer articulo</a>
-                    </div>
-                </div>
+                <?php } ?>
             </div>
         </div>
     </div>
