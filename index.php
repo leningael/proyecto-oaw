@@ -62,7 +62,7 @@
                     <div class="card-body">
                         <h4 class="card-title"><?php echo $noticia['titulo'];?></h4>
                         <p class="card-text"><?php echo $noticia['descripcion'];?></p>
-                        <a id="" class="btn btn-primary" href="#" role="button">Leer articulo</a>
+                        <a id="" class="btn btn-primary" href=<?php echo $noticia['link'];?> role="button">Leer articulo</a>
                     </div>
                 </div>
                 <?php } ?>
