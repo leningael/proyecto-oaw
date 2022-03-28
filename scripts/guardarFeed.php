@@ -17,4 +17,5 @@
     $sentenciaSQL->execute();
     $feed = $sentenciaSQL->fetch(PDO::FETCH_LAZY);
     guardarNoticias($feed['id'], generarFeed($urlFeed));
+    header("Location: ../index.php");
 ?>

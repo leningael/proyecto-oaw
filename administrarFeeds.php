@@ -34,15 +34,11 @@
                 <li class="nav-item dropdown active">
                     <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Administrar feeds</a>
                     <div class="dropdown-menu" aria-labelledby="dropdownId">
-                        <a class="dropdown-item" href="#">Agregar feeds</a>
+                        <a class="dropdown-item">Agregar feeds</a>
                         <a class="dropdown-item" href="#">Eliminar feeds</a>
                     </div>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Buscar noticia">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
-            </form>
         </div>
     </nav>
 
@@ -71,7 +67,7 @@
                                 <label for="categoriaFeed">Categoria:</label><br>
                                 <input type="text" class="form-control col-12" name="categoriaFeed" id="categoria" aria-describedby="categoriaFeed" placeholder="">
                             </div>
-                            <button type="submit" class="btn btn-primary w-25 mt-3">OK</button>
+                            <button type="submit" class="btn btn-primary w-25 mt-3" >OK</button>
                         </form>
                     </div>
                 </div>
