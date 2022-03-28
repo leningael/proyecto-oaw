@@ -40,9 +40,24 @@
                     </div>
                 </li>
             </ul>
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" id="refreshNews" href="scripts/actualizarNoticias.php">Actualizar</a>
+                </li>
+                <li class="nav-item">
+                    <select>
+                        <option>Ordenar por</option>
+                        <option>Título</option>
+                        <option>Más recientes primero)</option>
+                        <option>Más antiguos primero)</option>
+                        <option>Autor</option>
+                    </select>
+                </li>
+            </ul>
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" id="searchBar" name="searchBar"type="text" placeholder="Buscar noticia">
             </form>
+
         </div>
     </nav>
     <br>

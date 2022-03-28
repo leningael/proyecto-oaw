@@ -17,7 +17,12 @@
         include("../config/bd.php");
         foreach($feed->get_items() as $item){
             $titulo = $item->get_title();
-            $autor = $item->get_author()->get_name();
+            if ($item->get_author() !== null){
+                $autor = $item->get_author()->get_name();
+            } else {
+                $autor = "NA";
+            }
+
             $fecha = $item->get_date('Y-m-d H:i:s');
             $descripcion = $item->get_description();
             $contenido = $item->get_content();
