@@ -27,7 +27,7 @@
               <img class="card-img-top" src= '.$noticia['imagen'].' alt="">
               <div class="card-body">
               <h4 class="card-title">'.$noticia['titulo'].'</h4>
-              <p class="card-text">'.$noticia['descripcion'].'/p>
+              <p class="card-text">'.$noticia['descripcion'].'</p>
               <a class="btn btn-primary" href='.$noticia['link'].'role="button">Leer articulo</a>
               </div>
               </div>';

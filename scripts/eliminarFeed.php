@@ -7,5 +7,4 @@
         $sentenciaSQL->execute();
         header("location: ../administrarFeeds.php");
     }
-
 ?>

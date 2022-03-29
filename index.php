@@ -3,6 +3,10 @@
     $sql = $conexion->prepare("SELECT * FROM noticias");
     $sql->execute();
     $listaNoticias = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+    $sql = $conexion->prepare("SELECT id, categoria FROM feeds");
+    $sql->execute();
+
 ?>
 <!doctype html>
 <html lang="es">
@@ -65,10 +69,13 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-2">
-                <ul class="list-group">
-                    <li class="list-group-item active">Todos</li>
-                    <li class="list-group-item">Tecnología</li>
-                    <li class="list-group-item disabled">Videojuegos</li>
+                <ul class="list-group" id="categories">
+                    <li><a class="list-group-item active" href="index.php">Todos</a></li>
+                    <?php foreach($sql as $feed){?>
+                        <li><a class="list-group-item" id=<?php echo $feed['categoria'];?> onclick="loadCategoryNews(id);">
+                                <?php echo $feed['categoria'];?></a>
+                        </li>
+                    <?php } ?>
                 </ul>
             </div>
             <div class="col-md-10 d-flex flex-wrap" id="newsSpace">

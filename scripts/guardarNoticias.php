@@ -27,14 +27,13 @@
             $descripcion = $item->get_description();
             $contenido = $item->get_content();
             $link = $item->get_permalink();
-            // $categoria = $item->get_category()->get_label();
             $imgURL = "";
             if($item->get_enclosure(0)->get_link() !== null){
                 $imgURL = $item->get_enclosure(0)->get_link(); 
             }else{
                 $imgURL = $item->get_feed()->get_image_url();
             }
-            $sentenciaSQL = $conexion->prepare("INSERT INTO noticias (id_feed, titulo, autor, fecha, descripcion, contenido, imagen,link) 
+            $sentenciaSQL = $conexion->prepare("INSERT INTO noticias (id_feed, titulo, autor, fecha, descripcion, contenido, imagen, link) 
                                                             VALUES (:idFeed,:titulo,:autor,:fecha,:descripcion,:contenido,:imagen,:link);");
             $sentenciaSQL->bindParam(':idFeed', $id_feed);
             $sentenciaSQL->bindParam(':titulo', $titulo);
