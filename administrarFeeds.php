@@ -3,6 +3,7 @@
     $sql = $conexion->prepare("SELECT * FROM feeds");
     $sql->execute();
     $listaFeeds = $sql->fetchAll(PDO::FETCH_ASSOC);
+    $nullImage = "https://t4.ftcdn.net/jpg/02/24/30/09/360_F_224300995_Y8S2mc26jhC1Ywlty5TfBTgcyxy4Inbg.jpg";
 ?>
 
 <!DOCTYPE html>
@@ -42,96 +43,96 @@
         </div>
     </nav>
 
-    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-    <ol class="carousel-indicators">
-        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-    </ol>
-    <!-- Carrusel de imagenes -->
-    <div class="carousel-inner" style="background-color: black;">
-        <!-- Imagen default -->
-        <div class="carousel-item active">
-        <img class="d-block img-fluid mx-auto" src="miembros-equipo/foto-hebert.jpeg" alt="First slide">
+    <div id="demo" class="carousel slide" data-ride="carousel" >
+        <!-- Indicators -->
+        <ul class="carousel-indicators">
+            <li data-target="#demo" data-slide-to="0" class="active"></li>
+            <li data-target="#demo" data-slide-to="1"></li>
+            <li data-target="#demo" data-slide-to="2"></li>
+        </ul>
+        <!-- The slideshow -->
+        <div class="carousel-inner" style="background-color:black;height:400px;" >
+            <div class="carousel-item active" style="height:100%;width:100%">
+            <img class="d-block img-fluid mx-auto" src="imgs/banner-admin.jpg" style="height:400px;" >
+            </div>
+            <div class="carousel-item">
+            <img class="d-block img-fluid mx-auto" style="height:400px;" src="<?php if(array_key_exists(0,$listaFeeds)) echo $listaFeeds[0]['logo']; else echo $nullImage; ?>" alt="tercer slide">
+            </div>
+            <div class="carousel-item">
+            <img class="d-block img-fluid mx-auto" style="height:400px;" src="<?php if(array_key_exists(1,$listaFeeds)) echo $listaFeeds[1]['logo'];else echo $nullImage; ?>" alt="tercer slide">
+            </div>
         </div>
-        <div class="carousel-item">
-        <!-- Termina imagen default -->
-        
-        <img class="d-block w-100" src="" alt="Second slide">
-        </div>
+        <!-- Left and right controls -->
+        <a class="carousel-control-prev" href="#demo" data-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </a>
+        <a class="carousel-control-next" href="#demo" data-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </a>
 
-    </div>
-    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
     </div>
     
-    <div class="container-fluid">
+    <div class="container-fluid ">
         <div id="accordianId" role="tablist" aria-multiselectable="true">
-            <div class="card">
-                <div class="card-header" role="tab" id="linkFeedHeaderId">
-                    <h5 class="mb-0">
-                        <a id="agregarFeed" data-toggle="collapse" data-parent="#accordianId" href="#linkFeed" aria-expanded="true" aria-controls="linkFeed">
-                  Añadir Feed
-                </a>
-                    </h5>
-                </div>
-                <div id="linkFeed" class="collapse in" role="tabpanel" aria-labelledby="linkFeedHeaderId">
-                    <div class="card-body">
-                        <form class="form-inline d-flex align-items-center justify-content-around" method="POST" action="scripts/guardarFeed.php">
-                            <div class="form-group col-4">
-                                <label for="urlFeed">Link:</label>
-                                <input type="text" class="form-control col-12 " name="urlFeed" id="linkFeed" aria-describedby="urlFeed" placeholder="">
-                            </div>
-                            <div class="form-group col-4">
-                                <label for="nombreFeed">Nombre:</label><br>
-                                <input type="text" class="form-control col-12" name="nombreFeed" id="nombreFeed" aria-describedby="nombreFeed" placeholder="">
-                            </div>
-                            <div class="form-group col-4">
-                                <label for="categoriaFeed">Categoria:</label><br>
-                                <input type="text" class="form-control col-12" name="categoriaFeed" id="categoria" aria-describedby="categoriaFeed" placeholder="">
-                            </div>
-                            <button type="submit" class="btn btn-primary w-25 mt-3" >OK</button>
-                        </form>
+            
+                <div class="card bg-dark text-white border-light ">
+                    <div class="card-header border-light" role="tab" id="linkFeedHeaderId">
+                        <h5 class="mb-0">
+                            <a class="text-decoration-none text-white" id="agregarFeed" data-toggle="collapse" data-parent="#accordianId" href="#linkFeed" aria-expanded="true" aria-controls="linkFeed">
+                    Añadir Feed
+                    </a>
+                        </h5>
+                    </div>
+                    <div id="linkFeed" class="collapse in" role="tabpanel" aria-labelledby="linkFeedHeaderId">
+                        <div class="card-body">
+                            <form class="form-inline d-flex align-items-center justify-content-around" method="POST" action="scripts/guardarFeed.php">
+                                <div class="form-group col-4">
+                                    <label for="urlFeed">Link:</label>
+                                    <input type="text" class="form-control col-12 " name="urlFeed" id="linkFeed" aria-describedby="urlFeed" placeholder="">
+                                </div>
+                                <div class="form-group col-4">
+                                    <label for="nombreFeed">Nombre:</label><br>
+                                    <input type="text" class="form-control col-12" name="nombreFeed" id="nombreFeed" aria-describedby="nombreFeed" placeholder="">
+                                </div>
+                                <div class="form-group col-4">
+                                    <label for="categoriaFeed">Categoria:</label><br>
+                                    <input type="text" class="form-control col-12" name="categoriaFeed" id="categoria" aria-describedby="categoriaFeed" placeholder="">
+                                </div>
+                                <button type="submit" class="btn btn-primary w-25 mt-3" >OK</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="card">
-                <div class="card-header" role="tab" id="section2HeaderId">
-                    <h5 class="mb-0">
-                        <a id="#eliminarFeed" data-toggle="collapse" data-parent="#accordianId" href="#section2ContentId" aria-expanded="true" aria-controls="section2ContentId">
-                  Eliminar feed(s)
-                </a>
-                    </h5>
-                </div>
-
-                <div id="section2ContentId" class="collapse in" role="tabpanel" aria-labelledby="section2HeaderId">
-                    <div class="card-body">
-                       <table class="table">
-                           <thead>
-                               <tr>
-                                   <th>Fuente</th>
-                                   <th>Opcion</th>
-                               </tr>
-                           </thead>
-                           <tbody>
-                            <?php foreach($listaFeeds as $fuente){?>
+                <div class="card bg-dark text-white border-light">
+                    <div class="card-header border-light" role="tab" id="section2HeaderId">
+                        <h5 class="mb-0">
+                            <a class="text-decoration-none text-white" id="#eliminarFeed" data-toggle="collapse" data-parent="#accordianId" href="#section2ContentId" aria-expanded="true" aria-controls="section2ContentId">
+                    Eliminar feed(s)
+                    </a>
+                        </h5>
+                    </div>
+                    <div id="section2ContentId" class="collapse in" role="tabpanel" aria-labelledby="section2HeaderId">
+                        <div class="card-body">
+                        <table class="table text-white">
+                            <thead>
                                 <tr>
-                                    <td scope="row" class="col-9"><?php echo $fuente['nombre'];?></td>
-                                    <td class="col-3"><a name="" id="" class="btn btn-danger " href="scripts/eliminarFeed.php?id=<?php echo $fuente['id'];?>" role="button">Eliminar</a></td>
+                                    <th><p>Fuente</p></th>
+                                    <th>Opcion</th>
                                 </tr>
-                            <?php } ?>
-                           </tbody>
-                       </table>
+                            </thead>
+                            <tbody>
+                                <?php foreach($listaFeeds as $fuente){?>
+                                    <tr>
+                                        <td scope="row" class="col-9"><?php echo $fuente['nombre'];?></td>
+                                        <td class="col-3"><a name="" id="" class="btn btn-danger " href="scripts/eliminarFeed.php?id=<?php echo $fuente['id'];?>" role="button">Eliminar</a></td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                        </div>
                     </div>
-
                 </div>
-            </div>
+
         </div>        
     </div>
 
