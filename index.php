@@ -45,13 +45,14 @@
                     <a class="nav-link" id="refreshNews" href="scripts/actualizarNoticias.php">Actualizar</a>
                 </li>
                 <li class="nav-item">
-                    <select>
-                        <option>Ordenar por</option>
-                        <option>Título</option>
-                        <option>Más recientes primero)</option>
-                        <option>Más antiguos primero)</option>
-                        <option>Autor</option>
+                    <select id="sortOptions" name="sortOptions" onchange="sortingNews()">
+                        <option value=""> Ordenar por</option>
+                        <option value="titleFirst">Título</option>
+                        <option value="newFirst">Más recientes primero</option>
+                        <option value="oldFirst">Más antiguos primero</option>
+                        <option value="authorFirst">Autor</option>
                     </select>
+
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
@@ -70,7 +71,7 @@
                     <li class="list-group-item disabled">Videojuegos</li>
                 </ul>
             </div>
-            <div class="col-md-10 d-flex flex-wrap">
+            <div class="col-md-10 d-flex flex-wrap" id="newsSpace">
                 <?php foreach($listaNoticias as $noticia){?>
                 <div class="card-news m-2" style="width: 300px">
                     <img class="card-img-top" src="<?php echo $noticia['imagen'];?>" alt="">
@@ -88,6 +89,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="js/buscarNoticia.js"></script>
+    <script src="js/ordenarNoticia.js"></script>
 </body>
 </html>
 
