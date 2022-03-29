@@ -45,16 +45,6 @@
             $sentenciaSQL->bindParam(':imagen', $imgURL);
             $sentenciaSQL->bindParam(':link', $link);
             $sentenciaSQL->execute();
-            // $impr = $impr . "<p>Titulo: " .  $titulo . "</p>". "\n";
-            // $impr = $impr . "<p>Autor: " .  $autor . "</p>". "\n";
-            // $impr = $impr . "<p>Fecha: " .  $fecha . "</p>". "\n";
-            // $impr = $impr . "<p>Descripcion: " .  $descripcion . "</p>". "\n";
-            // $impr = $impr . "<p>Contenido: " .  $contenido . "</p>". "\n";
-            // $impr = $impr . "<p>Categoria: " .  $categoria . "</p>". "\n";
-            // $impr = $impr . "Imagen: " ."<img src=' " . $imgURL . " '>". "\n" . "<hr>";
         }
-        // return $impr;
     }
-
-    
 ?>

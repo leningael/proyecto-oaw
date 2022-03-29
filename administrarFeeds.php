@@ -42,6 +42,35 @@
         </div>
     </nav>
 
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+    </ol>
+    <!-- Carrusel de imagenes -->
+    <div class="carousel-inner" style="background-color: black;">
+        <!-- Imagen default -->
+        <div class="carousel-item active">
+        <img class="d-block img-fluid mx-auto" src="miembros-equipo/foto-hebert.jpeg" alt="First slide">
+        </div>
+        <div class="carousel-item">
+        <!-- Termina imagen default -->
+        
+        <img class="d-block w-100" src="" alt="Second slide">
+        </div>
+
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+    </div>
+    
     <div class="container-fluid">
         <div id="accordianId" role="tablist" aria-multiselectable="true">
             <div class="card">
