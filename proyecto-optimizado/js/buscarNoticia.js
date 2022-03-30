@@ -1,16 +1,1 @@
-let searchBar = document.getElementById('searchBar');
-searchBar.addEventListener('input', function () {
-    let search = searchBar.value.toLowerCase();
-    let allNews = document.getElementsByClassName('card-news');
-    let allTitles = document.getElementsByClassName('card-title');
-
-    for (let i = 0; i < allTitles.length; i++) {
-        let title = allTitles[i].innerHTML.toLowerCase();
-        console.log(title);
-        if (!title.includes(search)) {
-            allNews[i].style.display = "none";
-        } else {
-            allNews[i].style.display = "inline-block";
-        }
-    }
-});
+var searchBar=document.getElementById("searchBar");searchBar.addEventListener("input",function(){for(var e=searchBar.value.toLowerCase(),b=document.getElementsByClassName("card-news"),c=document.getElementsByClassName("card-title"),a=0;a<c.length;a++){var d=c[a].innerHTML.toLowerCase();console.log(d);d.includes(e)?b[a].style.display="inline-block":b[a].style.display="none"}});
