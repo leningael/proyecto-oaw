@@ -7,7 +7,7 @@
     $urlFeed = (isset($_POST['urlFeed'])) ? $_POST['urlFeed']:"";
     $categoriaFeed = (isset($_POST['categoriaFeed'])) ? $_POST['categoriaFeed']:"";
     $feed = generarFeed($urlFeed);
-    $logoFeed = $feed->get_image_url(); 
+    $logoFeed = $feed->get_image_url();
 
     $sentenciaSQL = $conexion->prepare("INSERT INTO feeds (nombre, url, categoria, logo) VALUES (:nombreFeed, :urlFeed, :categoriaFeed, :logoFeed);");
     $sentenciaSQL->bindParam(':nombreFeed', $nombreFeed);

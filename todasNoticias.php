@@ -1,12 +1,13 @@
 <?php
     include 'config/bd.php';
+    //include 'scripts/detalleNoticia.php';
     $sql = $conexion->prepare("SELECT DISTINCT categoria FROM feeds");
     $sql->execute();
     $listaCategorias = $sql->fetchAll(PDO::FETCH_ASSOC);
 
-    /* $sql = $conexion->prepare("SELECT * FROM noticias");
+    $sql = $conexion->prepare("SELECT * FROM noticias");
     $sql->execute();
-    $listaNoticias = $sql->fetchAll(PDO::FETCH_ASSOC); */
+    $listaNoticias = $sql->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!doctype html>
 <html lang="en">
@@ -32,7 +33,7 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+                <a class="nav-link active" aria-current="page" href="index.php">Inicio</a>
               </li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="administrarFeeds.php" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -47,10 +48,10 @@
                 <a class="nav-link" href="#">Cuenta</a>
               </li>
             </ul>
-            <!-- <form class="d-flex">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <form class="d-flex">
+              <input id="searchBar" name="searchBar" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
               <button class="btn btn-primary" type="submit">Search</button>
-            </form> -->
+            </form>
           </div>
         </div>
     </nav>
@@ -63,13 +64,13 @@
                 <span class="fs-4 d-block pb-1 text-center mb-2 border-bottom d-none d-inline">Menú</span>
                 <ul class="nav flex-column sideNav">
                     <li>
-                        <a href="#" class="nav-link text-white rounded">
+                        <a href="index.php" class="nav-link text-white rounded">
                             <img class="align-text-top" src="assets/icons/clock.svg" alt="Recientes">
                             <span class="d-none d-sm-inline">Recientes</span>
                         </a>
                     </li>
                     <li>
-                        <a href="todasNoticias.php" class="nav-link text-white rounded">
+                        <a href="#" class="nav-link text-white rounded">
                             <img class="align-text-top" src="assets/icons/archive.svg" alt="Recientes">
                             <span class="d-none d-sm-inline">Todas las noticias</span>
                         </a>
@@ -107,13 +108,13 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-lg-6">
-                                <h1>Noticias de hoy</h1>
-                                <p class="lead">Las últimas noticias de tus feeds</p>
+                                <h1>Todas las noticias</h1>
+                                <p class="lead">Todas las noticias existentes de tus feeds</p>
                             </div>
                             <div class="col-lg-6">
                                 <div class="d-flex flex-column align-items-start flex-md-row align-items-lg-center justify-content-lg-end h-100">
                                     <a id="refreshNews" class="btn btn-primary my-1 me-2" href="scripts/actualizarNoticias.php">Actualizar</a>
-                                    <!-- <div class="dropdown">
+                                    <div class="dropdown">
                                         <button class="btn btn-secondary dropdown-toggle my-1 me-2" type="button" id="dropdownOrden" data-bs-toggle="dropdown" aria-expanded="false">
                                             Ordenar por
                                         </button>
@@ -123,33 +124,13 @@
                                             <li><a type="button" id="oldFirst" class="dropdown-item itemDrop">Más antiguos primero</a></li>
                                             <li><a type="button" id="authorFirst" class="dropdown-item itemDrop">Autor</a></li>
                                         </ul>
-                                    </div> -->
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <?php foreach($listaCategorias as $categoria){?>
-                        <div class="row">
-                            <div class="col">
-                                <h3><?php echo $categoria['categoria']?></h3>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <?php
-                                /* $sql = $conexion->prepare("SELECT id FROM feeds WHERE categoria = :categoria");
-                                $sentenciaSQL->bindParam(':categoria',$categoria);
-                                $sql->execute();
-                                $listaIDS->fetchAll(PDO::FETCH_ASSOC);
-                                <?php foreach($listaIDS as $idFeed){?>
-                                    $sentenciaSQL = $conexion->prepare("SELECT n.* FROM noticias n, feeds f WHERE f.categoria ='".$idFeed."' AND n.id_feed = f.id");
-                                    $sentenciaSQL->bindParam(':categoria',$categoria);
-                                    $sql->execute();
-                                <?php } ?> */
-                                $sentenciaSQL = $conexion->prepare("SELECT * FROM noticias INNER JOIN feeds ON noticias.id_feed=feeds.id WHERE feeds.categoria = '".$categoria['categoria']."'");
-                                $sentenciaSQL->execute();
-                                $listaNoticias = $sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
-                            ?>
+                        <div id="newsSpace" class="row ">
                             <?php foreach($listaNoticias as $noticia){?>
-                            <div class="col-md-6 col-lg-4 col-xxl-3 mb-4 col-per">
+                            <div class="col-md-6 col-lg-4 col-xxl-3 mb-4 col-per card-news">
                                 <a type="button" class="opnButton text-decoration-none text-dark" id="<?php echo $noticia['id'];?>">
                                     <div class="card h-100">
                                         <img src="<?php echo $noticia['imagen'];?>" class="card-img-top" alt="Foto noticia">
@@ -187,7 +168,6 @@
                             </div>
                             <?php } ?>
                         </div>
-                        <?php } ?>
                     </div>
                 </section>
                 <!-- /Noticias -->
@@ -225,6 +205,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
     -->
     <script src="js/index.js"></script>
-    <!-- <script src="js/cargarNoticias.js"></script> -->
+    <script src="js/cargarNoticias.js"></script>
+    <script src="js/buscarNoticia.js"></script>
   </body>
 </html>

@@ -1,0 +1,29 @@
+.sideNav a:hover,
+.sideNav a:focus {
+  background-color: #3e3e3e;
+}
+
+.btn-toggle{
+    display: flex;
+    align-items: center;
+    line-height: 0;
+}
+
+.btn-toggle::before{
+    content: url('assets/icons/chevron-right.svg');
+    transition: transform .35s ease;
+    /* display: none; */
+}
+
+.btn-toggle[aria-expanded="true"]::before{
+    transform: rotate(90deg);
+}
+
+#nav-top{
+  background-color: #2a2a72;
+}
+
+#noticias img{
+  height: 200px;
+  object-fit: cover;
+}
