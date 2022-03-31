@@ -1,6 +1,8 @@
 <?php
     function generarFeed($url){
         require_once '../libs/simplepie-1.5.8/autoloader.php';
+        /* setlocale(LC_TIME, "es_MX.UTF-8", "Spanish"); */
+        date_default_timezone_set("America/Mexico_City");
 
         //$url = 'https://www.reforma.com/rss/portada.xml';
         $feed = new SimplePie();

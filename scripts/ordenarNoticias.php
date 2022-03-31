@@ -35,7 +35,7 @@
         $sentenciaSQL->bindParam(':idFeed',$noticia['id_feed']);
         $sentenciaSQL->execute();
         $feed = $sentenciaSQL->fetch(PDO::FETCH_LAZY);
-        $output .= $feed['nombre'].'</a><small>';
+        $output .= $feed['nombre'].'</a> <small>';
         /* Fecha */
         date_default_timezone_set('America/Mexico_City');
         $fechaActual = date("Y-m-d H:i:s");
@@ -43,10 +43,20 @@
         $datetime1 = date_create($fechaNoticia);
         $datetime2 = date_create($fechaActual);
         $intervalo = date_diff($datetime1, $datetime2);
-        if($intervalo->format('%a') > 0){
-            $differenceFormat = 'hace %d dias y %h horas';
+        $diasAntiguedad = $intervalo->format('%a');
+        $horasAntiguedad = $intervalo->format('%h');
+        if($diasAntiguedad>1){
+            $differenceFormat = 'hace %d días';
+        }else if($diasAntiguedad===1){
+            $differenceFormat = 'Ayer';
         }else{
-            $differenceFormat = 'hace %h horas';
+            if($horasAntiguedad>1){
+                $differenceFormat = 'hace %h horas';
+            }else if($horasAntiguedad===1){
+                $differenceFormat = 'hace %h hora';
+            }else{
+                $differenceFormat = 'hace %i minutos';
+            }
         }
         $output .= $intervalo->format($differenceFormat);
         $output .= '</small></div></div></a></div>';

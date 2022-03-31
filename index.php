@@ -179,10 +179,20 @@
                                                     $datetime1 = date_create($fechaNoticia);
                                                     $datetime2 = date_create($fechaActual);
                                                     $intervalo = date_diff($datetime1, $datetime2);
-                                                    if($intervalo->format('%a') > 0){
-                                                        $differenceFormat = 'hace %d dias y %h horas';
+                                                    $diasAntiguedad = $intervalo->format('%a');
+                                                    $horasAntiguedad = $intervalo->format('%h');
+                                                    if($diasAntiguedad>1){
+                                                        $differenceFormat = 'hace %d días';
+                                                    }else if($diasAntiguedad===1){
+                                                        $differenceFormat = 'Ayer';
                                                     }else{
-                                                        $differenceFormat = 'hace %h horas';
+                                                        if($horasAntiguedad>1){
+                                                            $differenceFormat = 'hace %h horas';
+                                                        }else if($horasAntiguedad===1){
+                                                            $differenceFormat = 'hace %h hora';
+                                                        }else{
+                                                            $differenceFormat = 'hace %i minutos';
+                                                        }
                                                     }
                                                     echo $intervalo->format($differenceFormat);
                                                     /* echo date_format($datetime2, 'Y-m-d H:i:s'); */
