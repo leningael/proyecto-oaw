@@ -1,23 +1,46 @@
 <?php
     include '../config/bd.php';
     $option=$_GET['order'];
-
-    switch ($option){
-        case 'titleFirst':
-            $sentenciaSQL= $conexion->prepare("SELECT * FROM noticias ORDER BY titulo ASC");
-            break;
-        case 'oldFirst':
-            $sentenciaSQL= $conexion->prepare("SELECT * FROM noticias ORDER BY fecha ASC");
-            break;
-        case 'newFirst':
-            $sentenciaSQL= $conexion->prepare("SELECT * FROM noticias ORDER BY fecha DESC");
-            break;
-        case 'authorFirst':
-            $sentenciaSQL= $conexion->prepare("SELECT * FROM noticias ORDER BY autor  ASC");
-            break;
-        default:
-            $sentenciaSQL= $conexion->prepare("SELECT * FROM noticias");
-            break;
+    if(!isset($_GET['feed'])){
+        switch ($option){
+            case 'titleFirst':
+                $sentenciaSQL= $conexion->prepare("SELECT * FROM noticias ORDER BY titulo ASC");
+                break;
+            case 'oldFirst':
+                $sentenciaSQL= $conexion->prepare("SELECT * FROM noticias ORDER BY fecha ASC");
+                break;
+            case 'newFirst':
+                $sentenciaSQL= $conexion->prepare("SELECT * FROM noticias ORDER BY fecha DESC");
+                break;
+            case 'authorFirst':
+                $sentenciaSQL= $conexion->prepare("SELECT * FROM noticias ORDER BY autor  ASC");
+                break;
+            default:
+                $sentenciaSQL= $conexion->prepare("SELECT * FROM noticias");
+                break;
+        }
+    }else{
+        $sentenciaSQL = $conexion->prepare("SELECT id FROM feeds WHERE nombre = :nombre");
+        $sentenciaSQL->bindParam(':nombre', $_GET['feed']);
+        $sentenciaSQL->execute();
+        $datosFeed = $sentenciaSQL->fetch(PDO::FETCH_LAZY);
+        switch ($option){
+            case 'titleFirst':
+                $sentenciaSQL = $conexion->prepare("SELECT * FROM noticias WHERE id_feed = '".$datosFeed['id']."' ORDER BY titulo ASC");
+                break;
+            case 'oldFirst':
+                $sentenciaSQL= $conexion->prepare("SELECT * FROM noticias WHERE id_feed = '".$datosFeed['id']."' ORDER BY fecha ASC");
+                break;
+            case 'newFirst':
+                $sentenciaSQL= $conexion->prepare("SELECT * FROM noticias WHERE id_feed = '".$datosFeed['id']."' ORDER BY fecha DESC");
+                break;
+            case 'authorFirst':
+                $sentenciaSQL= $conexion->prepare("SELECT * FROM noticias WHERE id_feed = '".$datosFeed['id']."' ORDER BY autor  ASC");
+                break;
+            default:
+                $sentenciaSQL= $conexion->prepare("SELECT * FROM noticias WHERE id_feed = '".$datosFeed['id']."'");
+                break;
+        }
     }
     $sentenciaSQL->execute();
     $listaNoticias= $sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
@@ -29,12 +52,11 @@
         $output .= '<img src="'.$noticia['imagen'].'" class="card-img-top" alt="Foto noticia">';
         $output .= '<div class="card-body">';
         $output .= '<h5 class="card-title">'.$noticia['titulo'].'</h5>';
-        $output .= '<a href="#" class="text-decoration-none">';
-        /* Consulta al feed */    
         $sentenciaSQL = $conexion->prepare("SELECT * FROM feeds WHERE id = :idFeed");
         $sentenciaSQL->bindParam(':idFeed',$noticia['id_feed']);
         $sentenciaSQL->execute();
-        $feed = $sentenciaSQL->fetch(PDO::FETCH_LAZY);
+        $feed = $sentenciaSQL->fetch(PDO::FETCH_LAZY); 
+        $output .= '<a href="'.$feed['linkFeed'].'" class="text-decoration-none">';
         $output .= $feed['nombre'].'</a> <small>';
         /* Fecha */
         date_default_timezone_set('America/Mexico_City');
@@ -47,12 +69,12 @@
         $horasAntiguedad = $intervalo->format('%h');
         if($diasAntiguedad>1){
             $differenceFormat = 'hace %d días';
-        }else if($diasAntiguedad===1){
+        }else if($diasAntiguedad==1){
             $differenceFormat = 'Ayer';
         }else{
             if($horasAntiguedad>1){
                 $differenceFormat = 'hace %h horas';
-            }else if($horasAntiguedad===1){
+            }else if($horasAntiguedad==1){
                 $differenceFormat = 'hace %h hora';
             }else{
                 $differenceFormat = 'hace %i minutos';

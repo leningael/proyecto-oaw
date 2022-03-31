@@ -3,7 +3,14 @@
     $sql = $conexion->prepare("SELECT DISTINCT categoria FROM feeds");
     $sql->execute();
     $listaCategorias = $sql->fetchAll(PDO::FETCH_ASSOC);
-
+    $cantArticulos = 8;
+    $mayorNoticias = 0;
+    if(!$_GET){
+        header('Location:index.php?pagina=1');
+    }
+    if($_GET['pagina'] < 1){
+        header('Location:index.php?pagina=1');
+    }
     /* $sql = $conexion->prepare("SELECT * FROM noticias");
     $sql->execute();
     $listaNoticias = $sql->fetchAll(PDO::FETCH_ASSOC); */
@@ -32,7 +39,7 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+                <a class="nav-link active" aria-current="page" href="index.php">Inicio</a>
               </li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="administrarFeeds.php" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -63,7 +70,7 @@
                 <span class="fs-4 d-block pb-1 text-center mb-2 border-bottom d-none d-inline">Menú</span>
                 <ul class="nav flex-column sideNav">
                     <li>
-                        <a href="#" class="nav-link text-white rounded">
+                        <a href="index.php" class="nav-link text-white rounded">
                             <img class="align-text-top" src="assets/icons/clock.svg" alt="Recientes">
                             <span class="d-none d-sm-inline">Recientes</span>
                         </a>
@@ -92,7 +99,7 @@
                         <div class="collapse" id="categorias-collapse-<?php echo $categoria['categoria'];?>">
                             <ul class="btn-toggle-nav list-unstyled pb-1 small text-center text-sm-start">
                                 <?php foreach($listaFeeds as $feed){ ?>
-                                    <li><a href="#" class="nav-link text-white rounded"><?php echo $contadorFeed;?><span class="d-none d-sm-inline">. <?php echo $feed['nombre'];?></span></a></li>
+                                    <li><a href="noticiasFeed.php?feed=<?php echo $feed['nombre'];?>" class="nav-link text-white rounded"><?php echo $contadorFeed;?><span class="d-none d-sm-inline">. <?php echo $feed['nombre'];?></span></a></li>
                                 <?php $contadorFeed++; } ?>
                             </ul>
                         </div>
@@ -111,24 +118,22 @@
                                 <p class="lead">Las últimas noticias de tus feeds</p>
                             </div>
                             <div class="col-lg-6">
-                                <div class="d-flex flex-column align-items-start flex-md-row align-items-lg-center justify-content-lg-end h-100">
+                                <div class="d-flex flex-column align-items-start flex-md-row align-items-lg-center justify-content-lg-end h-100 mb-2">
                                     <a id="refreshNews" class="btn btn-primary my-1 me-2" href="scripts/actualizarNoticias.php">Actualizar</a>
-                                    <!-- <div class="dropdown">
-                                        <button class="btn btn-secondary dropdown-toggle my-1 me-2" type="button" id="dropdownOrden" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Ordenar por
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownOrden">
-                                            <li><a type="button" id="titleFirst" class="dropdown-item itemDrop">Título</a></li>
-                                            <li><a type="button" id="newFirst" class="dropdown-item itemDrop">Más recientes primero</a></li>
-                                            <li><a type="button" id="oldFirst" class="dropdown-item itemDrop">Más antiguos primero</a></li>
-                                            <li><a type="button" id="authorFirst" class="dropdown-item itemDrop">Autor</a></li>
-                                        </ul>
-                                    </div> -->
                                 </div>
                             </div>
                         </div>
                         <?php foreach($listaCategorias as $categoria){
-                        $sentenciaSQL = $conexion->prepare("SELECT n.* FROM (SELECT id FROM feeds WHERE categoria = '".$categoria['categoria']."') f JOIN (SELECT * FROM noticias WHERE LEFT(fecha, 10) = CURDATE()) n ON n.id_feed=f.id ORDER BY fecha DESC LIMIT 8");
+                        $sentenciaSQL = $conexion->prepare("SELECT COUNT(*) FROM (SELECT id FROM feeds WHERE categoria = '".$categoria['categoria']."') f JOIN (SELECT * FROM noticias WHERE LEFT(fecha, 10) = CURDATE()) n ON n.id_feed=f.id");
+                        $sentenciaSQL->execute();
+                        $cantidadNoticias = $sentenciaSQL->fetch();
+                        if($cantidadNoticias[0]>$mayorNoticias){
+                            $mayorNoticias=$cantidadNoticias[0];
+                        }
+                        $iniciar = ($_GET['pagina']-1)*$cantArticulos;
+                        $sentenciaSQL = $conexion->prepare("SELECT n.* FROM (SELECT id FROM feeds WHERE categoria = '".$categoria['categoria']."') f JOIN (SELECT * FROM noticias WHERE LEFT(fecha, 10) = CURDATE()) n ON n.id_feed=f.id ORDER BY fecha DESC LIMIT :iniciar, :cantArticulos");
+                        $sentenciaSQL->bindParam(':iniciar', $iniciar, PDO::PARAM_INT);
+                        $sentenciaSQL->bindParam(':cantArticulos', $cantArticulos, PDO::PARAM_INT);
                         $sentenciaSQL->execute();
                         if($sentenciaSQL->rowCount()>0){
                             $listaNoticias = $sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
@@ -139,22 +144,6 @@
                             </div>
                         </div>
                         <div class="row">
-                            <?php
-                                /* $sql = $conexion->prepare("SELECT id FROM feeds WHERE categoria = :categoria");
-                                $sentenciaSQL->bindParam(':categoria',$categoria);
-                                $sql->execute();
-                                $listaIDS->fetchAll(PDO::FETCH_ASSOC);
-                                <?php foreach($listaIDS as $idFeed){?>
-                                    $sentenciaSQL = $conexion->prepare("SELECT n.* FROM noticias n, feeds f WHERE f.categoria ='".$idFeed."' AND n.id_feed = f.id");
-                                    $sentenciaSQL->bindParam(':categoria',$categoria);
-                                    $sql->execute();
-                                <?php } ?> */
-                                /* $sentenciaSQL = $conexion->prepare("SELECT n.* FROM (SELECT id FROM feeds WHERE categoria = '".$categoria['categoria']."') f JOIN (SELECT * FROM noticias WHERE LEFT(fecha, 10) = CURDATE()) n ON n.id_feed=f.id ORDER BY fecha DESC LIMIT 8");
-                                $sentenciaSQL->execute();
-                                $listaNoticias = $sentenciaSQL->fetchAll(PDO::FETCH_ASSOC); */
-                                /* $sentenciaSQL = $conexion->prepare("SELECT noticias.* FROM noticias JOIN feeds ON noticias.id_feed=feeds.id WHERE feeds.categoria = '".$categoria['categoria']."'"); */
-
-                            ?>
                             <?php foreach($listaNoticias as $noticia){?>
                             <div class="col-md-6 col-lg-4 col-xxl-3 mb-4 col-per">
                                 <a type="button" class="opnButton text-decoration-none text-dark" id="<?php echo $noticia['id'];?>">
@@ -162,14 +151,14 @@
                                         <img src="<?php echo $noticia['imagen'];?>" class="card-img-top" alt="Foto noticia">
                                         <div class="card-body">
                                             <h5 class="card-title"><?php echo $noticia['titulo'];?></h5>
-                                            <a href="#" class="text-decoration-none">
-                                                <?php
+                                            <?php
                                                 $sentenciaSQL = $conexion->prepare("SELECT * FROM feeds WHERE id = :idFeed");
                                                 $sentenciaSQL->bindParam(':idFeed',$noticia['id_feed']);
                                                 $sentenciaSQL->execute();
                                                 $feed = $sentenciaSQL->fetch(PDO::FETCH_LAZY); 
-                                                echo $feed['nombre'];
-                                                ?>
+                                            ?>
+                                            <a href="<?php echo $feed['linkFeed'];?>" class="text-decoration-none">
+                                                <?php echo $feed['nombre'];?>
                                             </a>
                                             <small>
                                                 <?php
@@ -183,19 +172,18 @@
                                                     $horasAntiguedad = $intervalo->format('%h');
                                                     if($diasAntiguedad>1){
                                                         $differenceFormat = 'hace %d días';
-                                                    }else if($diasAntiguedad===1){
+                                                    }else if($diasAntiguedad==1){
                                                         $differenceFormat = 'Ayer';
                                                     }else{
                                                         if($horasAntiguedad>1){
                                                             $differenceFormat = 'hace %h horas';
-                                                        }else if($horasAntiguedad===1){
+                                                        }else if($horasAntiguedad==1){
                                                             $differenceFormat = 'hace %h hora';
                                                         }else{
                                                             $differenceFormat = 'hace %i minutos';
                                                         }
                                                     }
                                                     echo $intervalo->format($differenceFormat);
-                                                    /* echo date_format($datetime2, 'Y-m-d H:i:s'); */
                                                 ?>
                                             </small>
                                         </div>
@@ -208,6 +196,19 @@
                     </div>
                 </section>
                 <!-- /Noticias -->
+                <?php 
+                    $paginas = $mayorNoticias/$cantArticulos;
+                    $paginas = ceil($paginas);
+                ?>
+                <div class="my-4 d-flex justify-content-center align-items-center flex-wrap">
+                    <p class="me-4">Página <?php echo $_GET['pagina']; ?> de <?php echo $paginas; ?></p>
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <li class="page-item <?php echo $_GET['pagina']<=1?'disabled':''; ?>"><a class="page-link" href="index.php?pagina=<?php echo $_GET['pagina']-1;?>">Anterior</a></li>
+                            <li class="page-item <?php echo $_GET['pagina']>=$paginas?'disabled':''; ?>"><a class="page-link" href="index.php?pagina=<?php echo $_GET['pagina']+1;?>">Siguiente</a></li>
+                        </ul>
+                    </nav>
+                </div>
             </div>
         </div>
     </div>

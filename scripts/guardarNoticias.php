@@ -31,8 +31,10 @@
             $imgURL = "";
             if($item->get_enclosure(0)->get_link() !== null){
                 $imgURL = $item->get_enclosure(0)->get_link(); 
-            }else{
+            }else if($item->get_feed()->get_image_url() !== null){
                 $imgURL = $item->get_feed()->get_image_url();
+            }else{
+                $imgURL = "assets/img/foto-noticia.jpeg";
             }
             $sentenciaSQL = $conexion->prepare("INSERT INTO noticias (id_feed, titulo, autor, fecha, contenido, imagen, link) 
                                                             VALUES (:idFeed,:titulo,:autor,:fecha,:contenido,:imagen,:link);");

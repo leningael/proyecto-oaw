@@ -1,13 +1,18 @@
 <?php
     include 'config/bd.php';
-    //include 'scripts/detalleNoticia.php';
     $sql = $conexion->prepare("SELECT DISTINCT categoria FROM feeds");
     $sql->execute();
     $listaCategorias = $sql->fetchAll(PDO::FETCH_ASSOC);
+    $feedSelected=$_GET['feed'];
 
-    $sql = $conexion->prepare("SELECT * FROM noticias");
-    $sql->execute();
-    $listaNoticias = $sql->fetchAll(PDO::FETCH_ASSOC);
+    $sentenciaSQL = $conexion->prepare("SELECT * FROM feeds WHERE nombre = :nombre");
+    $sentenciaSQL->bindParam(':nombre',$feedSelected);
+    $sentenciaSQL->execute();
+    $datosFeed = $sentenciaSQL->fetch(PDO::FETCH_LAZY);
+    
+    $sentenciaSQL = $conexion->prepare("SELECT * FROM noticias WHERE id_feed = '".$datosFeed['id']."'");
+    $sentenciaSQL->execute();
+    $listaNoticias = $sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!doctype html>
 <html lang="en">
@@ -60,7 +65,7 @@
     <div class="container-fluid flex-nowrap">
         <div class="row">
             <!-- Sidebar -->
-            <div class="col-auto col-md-3 col-xl-2 text-white bg-dark p-3 min-vh-100">
+            <div class="col-auto col-md-3 col-xl-2 text-white bg-dark py-3 min-vh-100">
                 <span class="fs-4 d-block pb-1 text-center mb-2 border-bottom d-none d-inline">Menú</span>
                 <ul class="nav flex-column sideNav">
                     <li>
@@ -70,7 +75,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="nav-link text-white rounded">
+                        <a href="todasNoticias.php" class="nav-link text-white rounded">
                             <img class="align-text-top" src="assets/icons/archive.svg" alt="Recientes">
                             <span class="d-none d-sm-inline">Todas las noticias</span>
                         </a>
@@ -102,17 +107,29 @@
                 </ul>
             </div>
             <!-- /Sidebar -->
-            <div class="col">
+            <div class="col px-0">
+                <!-- Info feed -->
+                <section id="infoFeed">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-6 px-0">
+                                <img class="logoFeed" src="<?php echo $datosFeed['logo'];?>" alt="Logo feed">
+                            </div>
+                            <div class="col-md-6 py-4 align-self-center">
+                                <h1><?php echo $datosFeed['nombre'];?></h1>
+                                <p><?php echo $datosFeed['descripcion'];?></p>
+                                <a href="<?php echo $datosFeed['linkFeed'];?>" class="btn btn-outline-light">Visita el sitio web</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- /Info feed -->
                 <!-- Noticias -->
-                <section id="noticias" class="mt-4">
+                <section id="noticias" class="m-4">
                     <div class="container">
                         <div class="row">
-                            <div class="col-lg-6">
-                                <h1>Todas las noticias</h1>
-                                <p class="lead">Todas las noticias existentes de tus feeds</p>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="d-flex flex-column align-items-start flex-md-row align-items-lg-center justify-content-lg-end h-100 mb-2">
+                            <div class="col">
+                                <div class="d-flex flex-wrap mb-2">
                                     <a id="refreshNews" class="btn btn-primary my-1 me-2" href="scripts/actualizarNoticias.php">Actualizar</a>
                                     <div class="dropdown">
                                         <button class="btn btn-secondary dropdown-toggle my-1 me-2" type="button" id="dropdownOrden" data-bs-toggle="dropdown" aria-expanded="false">

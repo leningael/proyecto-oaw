@@ -11,5 +11,5 @@
     foreach ($listaFeeds as $feed){
         guardarNoticias($feed['id'], generarFeed($feed['url']));
     }
-    header("Location: ../index.php");
+    header("Location: ".$_SERVER["HTTP_REFERER"]);
 ?>

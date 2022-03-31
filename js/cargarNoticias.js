@@ -8,7 +8,13 @@ for(let i = 0; i < ordenNoticias.length; i++){
                 asignarModal();
             }
         };
-        request.open('GET', 'scripts/ordenarNoticias.php?order='+this.id);
+        let params = (new URL(document.location)).searchParams;
+        let feed = params.get("feed");
+        if(feed == null){
+            request.open('GET', 'scripts/ordenarNoticias.php?order='+this.id);
+        }else{
+            request.open('GET', 'scripts/ordenarNoticias.php?order='+this.id+'&feed='+feed);
+        }
         request.send();
     });
 }

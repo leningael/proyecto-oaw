@@ -27,3 +27,20 @@
   height: 200px;
   object-fit: cover;
 }
+
+#infoFeed{
+  background-color: #312C39;
+  color: white;
+}
+
+#infoFeed img{
+  max-width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* .logoFeed{
+  max-width: 90%;
+  max-height: 300px;
+  object-fit: cover;
+} */
