@@ -5,6 +5,7 @@ function asignarModal(){
     for(let i = 0; i < detallesNoticia.length; i++){
         detallesNoticia[i].addEventListener("click", function(){
             var idNoticia = this.id;
+            console.log(idNoticia);
             var modalNoticia = new bootstrap.Modal(document.getElementById('modalNoticia'));
             const xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){

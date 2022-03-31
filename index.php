@@ -127,7 +127,12 @@
                                 </div>
                             </div>
                         </div>
-                        <?php foreach($listaCategorias as $categoria){?>
+                        <?php foreach($listaCategorias as $categoria){
+                        $sentenciaSQL = $conexion->prepare("SELECT n.* FROM (SELECT id FROM feeds WHERE categoria = '".$categoria['categoria']."') f JOIN (SELECT * FROM noticias WHERE LEFT(fecha, 10) = CURDATE()) n ON n.id_feed=f.id ORDER BY fecha DESC LIMIT 8");
+                        $sentenciaSQL->execute();
+                        if($sentenciaSQL->rowCount()>0){
+                            $listaNoticias = $sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
+                        ?>
                         <div class="row">
                             <div class="col">
                                 <h3><?php echo $categoria['categoria']?></h3>
@@ -144,9 +149,11 @@
                                     $sentenciaSQL->bindParam(':categoria',$categoria);
                                     $sql->execute();
                                 <?php } ?> */
-                                $sentenciaSQL = $conexion->prepare("SELECT * FROM noticias INNER JOIN feeds ON noticias.id_feed=feeds.id WHERE feeds.categoria = '".$categoria['categoria']."'");
+                                /* $sentenciaSQL = $conexion->prepare("SELECT n.* FROM (SELECT id FROM feeds WHERE categoria = '".$categoria['categoria']."') f JOIN (SELECT * FROM noticias WHERE LEFT(fecha, 10) = CURDATE()) n ON n.id_feed=f.id ORDER BY fecha DESC LIMIT 8");
                                 $sentenciaSQL->execute();
-                                $listaNoticias = $sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
+                                $listaNoticias = $sentenciaSQL->fetchAll(PDO::FETCH_ASSOC); */
+                                /* $sentenciaSQL = $conexion->prepare("SELECT noticias.* FROM noticias JOIN feeds ON noticias.id_feed=feeds.id WHERE feeds.categoria = '".$categoria['categoria']."'"); */
+
                             ?>
                             <?php foreach($listaNoticias as $noticia){?>
                             <div class="col-md-6 col-lg-4 col-xxl-3 mb-4 col-per">
@@ -187,7 +194,7 @@
                             </div>
                             <?php } ?>
                         </div>
-                        <?php } ?>
+                        <?php } } ?>
                     </div>
                 </section>
                 <!-- /Noticias -->
